@@ -1,0 +1,127 @@
+
+1)
+
+mysql> select content_id , title , category_name from content inner join category on content.category_id = category.category_id;
++------------+----------------------+---------------+
+| content_id | title                | category_name |
++------------+----------------------+---------------+
+|          2 | The Cosmic Heist     | Movies        |
+|          6 | The Algorithm        | Movies        |
+|          1 | Stranger Adventures  | Series        |
+|          4 | Code Warriors        | Series        |
+|          3 | Planet Earth: Oceans | Documentaries |
+|          7 | Wildlife Mysteries   | Documentaries |
+|          5 | Attack on Mars       | Anime         |
+|          8 | Cyberpunk Chronicles | Anime         |
++------------+----------------------+---------------+
+8 rows in set (0.001 sec)
+
+2)
+
+mysql> select title , rating , views_in_millions from content order by views_in_millions desc
+    -> ;
++----------------------+--------+-------------------+
+| title                | rating | views_in_millions |
++----------------------+--------+-------------------+
+| Planet Earth: Oceans |    9.2 |            201.75 |
+| Wildlife Mysteries   |    8.8 |            178.90 |
+| Attack on Mars       |    9.0 |            156.80 |
+| Stranger Adventures  |    8.7 |            142.50 |
+| Cyberpunk Chronicles |    8.4 |            123.45 |
+| The Cosmic Heist     |    7.9 |             89.30 |
+| Code Warriors        |    8.1 |             67.20 |
+| The Algorithm        |    7.5 |             45.60 |
++----------------------+--------+-------------------+
+8 rows in set (0.001 sec)
+
+
+3) 
+
+mysql> select category_name , avg(rating) as average_rating from category inner join content on category.category_id = content.category_id group by category_name;
++---------------+----------------+
+| category_name | average_rating |
++---------------+----------------+
+| Movies        |        7.70000 |
+| Series        |        8.40000 |
+| Documentaries |        9.00000 |
+| Anime         |        8.70000 |
++---------------+----------------+
+4 rows in set (0.002 sec)
+
+4)
+
+mysql> select  title, rating, views_in_millions , category_name from category inner join content on category.category_id = content.category_id where rating > 8.5 and views_in_millions > 100 ;
++----------------------+--------+-------------------+---------------+
+| title                | rating | views_in_millions | category_name |
++----------------------+--------+-------------------+---------------+
+| Stranger Adventures  |    8.7 |            142.50 | Series        |
+| Planet Earth: Oceans |    9.2 |            201.75 | Documentaries |
+| Attack on Mars       |    9.0 |            156.80 | Anime         |
+| Wildlife Mysteries   |    8.8 |            178.90 | Documentaries |
++----------------------+--------+-------------------+---------------+
+4 rows in set (0.001 sec)
+
+
+5)
+
+
+mysql> explain analyze select content_id , title , category_name from content inner join category on content.category_id = category.category_id;
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| EXPLAIN                                                                                                                                                                                                                                                                                                                                       |
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| -> Nested loop inner join  (cost=3.45 rows=8) (actual time=0.048..0.0779 rows=8 loops=1)
+    -> Table scan on category  (cost=0.65 rows=4) (actual time=0.0218..0.0243 rows=4 loops=1)
+    -> Index lookup on content using category_id (category_id = category.category_id)  (cost=0.55 rows=2) (actual time=0.0105..0.0124 rows=2 loops=4)
+ |
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.002 sec)
+
+
+
+mysql> create index idx_category_id on content(category_id);
+Query OK, 0 rows affected (0.013 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+mysql> explain analyze select content_id , title , category_name from content inner join category on content.category_id = category.category_id;
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| EXPLAIN                                                                                                                                                                                                                                                                                                                                          |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| -> Nested loop inner join  (cost=3.45 rows=8) (actual time=0.069..0.0937 rows=8 loops=1)
+    -> Table scan on category  (cost=0.65 rows=4) (actual time=0.039..0.0411 rows=4 loops=1)
+    -> Index lookup on content using idx_category_id (category_id = category.category_id)  (cost=0.55 rows=2) (actual time=0.0107..0.0122 rows=2 loops=4)
+ |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.001 sec)
+
+
+
+Total Execution time increased by a very little number of 0.01 to 0.02 . This could be because the number of rows here are less i.e only 8 rows in content table , the overhead is slightly more than a full table scan. But as soon as the table size reaches millions , creating indexes makes join operations happen fastly , using B-trees search scan in log(n) time . 
+
+
+6)
+
+
+The foreign key ensures that the value in one table should exist in other table. This helps in preventing that no faulty or random value is inserted in the table . So, if we try to insert a content record with category_id = 999 , but similar category_id is not present in category table  then it will give us with error.
+
+
+7) 
+
+
+ACID -> Atomicity , Consistency , Isolation , Durability 
+
+Atomicity : Either whole of the transactions happens or none happens . If 1000 users are trying to update the view_cnt value , maybe only partial increase in the view count value happens if there is no atomicity . Atomicity ensures that either everyone is able to update the value of view_cnt or no one is able to update the value of view_cnt.
+
+Consistency : The database should remain in consistent state before and after the transactions. Consistency ensures that rules like foreign keys, data types and constraints remain valid.Without it , the view count might become negative.Data becomes logically impossible. Database no longer reflects real-world truth.
+
+Isolation : It helps in multiple transactions run concurrently without interfering each other. Without it , suppose Transaction A read view_cnt as 500 and Transaction B read view_cnt as 500 simultaneously and both set the view_cnt as 501 . But logically view_cnt should be 501.
+
+Durability : It guarantees data is saved permanently after transactions commit. Without it , suppose you increase the view_cnt to 501 , the server crashes and the updates never get saved.Views revert back to 500. Now your database lies about real views.
+
+
+8) 
+
+Creating index on category_id prevents doing a full-table scan . It optimises the query by turning the search from O(N) to O(log(N)) using B-trees behind the scenes. A table with a size of million can be searched within few steps.
+
+
+ 
