@@ -60,6 +60,8 @@ Total Execution time, when indexing was done : 0.0153 + 0.0013 + 0.00098 = 0.017
 
 Since, the execution time has been reduced after indexing has been applied , so yes performance has been improved. 
 
+There is an index lookup on content(category_id) while performing an inner join between category and content i.e (contegory.category_id = content.category_id) . This search of category_id in content table is very fast (can be done in log(N) time) due to indexing and we will not require to perform full table search scan.
+
 
 6)
 
