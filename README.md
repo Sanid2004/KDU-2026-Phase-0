@@ -36,7 +36,7 @@ mysql> select  title, rating, views_in_millions , category_name from category in
 mysql> explain analyze select content_id , title , category_name from content inner join category on content.category_id = category.category_id;
 
 
-![Alt text](Images/image5.png)
+![Alt text](Images/Image5.png)
 
 
 
