@@ -54,7 +54,11 @@ mysql> explain analyze select content_id , title , category_name from content in
 
 
 
-Total Execution time increased by a very little number of 0.01 to 0.02 . This could be because the number of rows here are less i.e only 8 rows in content table , the overhead is slightly more than a full table scan. But as soon as the table size reaches millions , creating indexes makes join operations happen fastly , using B-trees search scan in log(n) time . 
+Total Execution time (When indexing was not done) : 0.0261 + 0.0024 + 0.0015 = 0.03 ms 
+
+Total Execution time, when indexing was done : 0.0153 + 0.0013 + 0.00098 = 0.01758 ms 
+
+Since, the execution time has been reduced after indexing has been applied , so yes performance has been improved. 
 
 
 6)
