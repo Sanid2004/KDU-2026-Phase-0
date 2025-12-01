@@ -11,16 +11,23 @@ mysql> select content_id , title , category_name from content inner join categor
 mysql> select title , rating , views_in_millions from content order by views_in_millions desc
     -> ;
 
+![Alt text](Images/image2.png)
+
 
 3) 
 
 mysql> select category_name , avg(rating) as average_rating from category inner join content on category.category_id = content.category_id group by category_name;
 
 
+![Alt text](Images/image3.png)
+
+
 4)
 
 mysql> select  title, rating, views_in_millions , category_name from category inner join content on category.category_id = content.category_id where rating > 8.5 and views_in_millions > 100 ;
 
+
+![Alt text](Images/image4.png)
 
 
 5)
