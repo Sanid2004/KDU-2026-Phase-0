@@ -3,6 +3,8 @@
 
 mysql> select content_id , title , category_name from content inner join category on content.category_id = category.category_id;
 
+![Alt text](image1.png)
+
 
 2)
 
