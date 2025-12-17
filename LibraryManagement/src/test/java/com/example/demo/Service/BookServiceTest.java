@@ -1,6 +1,10 @@
 package com.example.demo.Service;
 
 import com.example.demo.DTOs.BookDto;
+<<<<<<< HEAD
+=======
+import com.example.demo.Exception.DuplicateBookException;
+>>>>>>> main
 import com.example.demo.Exception.ResourceNotFoundException;
 import com.example.demo.Models.Book;
 import com.example.demo.Repository.BookRepository;
@@ -61,11 +65,23 @@ public class BookServiceTest {
     }
 
     @Test
+<<<<<<< HEAD
     void TestAddBook(){
         Book book = new Book();
         book.setBookId(2);
 
         Mockito.when(bookRepository.save(book)).thenReturn(book);
+=======
+    void TestAddBookWithoutException(){
+        Book book = new Book();
+        book.setBookId(2);
+        book.setAuthor("ABC");
+        book.setTitle("XYZ");
+
+        Mockito.when(bookRepository.save(book)).thenReturn(book);
+        // Mockito.when(bookRepository.existsByAuthor("ABC")).thenReturn(false); // This will cause unnecessary stubbing
+        Mockito.when(bookRepository.existsByTitle("XYZ")).thenReturn(false);
+>>>>>>> main
 
         Book book1 = bookService.AddBook(book);
 
@@ -74,6 +90,22 @@ public class BookServiceTest {
     }
 
     @Test
+<<<<<<< HEAD
+=======
+    void TestAddBookWithException(){
+        Book book = new Book();
+        book.setBookId(2);
+        book.setAuthor("ABC");
+        book.setTitle("XYZ");
+
+        Mockito.when(bookRepository.existsByAuthor("ABC")).thenReturn(true);
+        Mockito.when(bookRepository.existsByTitle("XYZ")).thenReturn(true);
+
+        assertThrows(DuplicateBookException.class,()->bookService.AddBook(book));
+    }
+
+    @Test
+>>>>>>> main
     void TestUpdateBookWithoutException(){
         // Arrange
         Book existing = new Book();

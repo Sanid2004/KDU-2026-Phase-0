@@ -27,4 +27,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
+<<<<<<< HEAD
+=======
+    @ExceptionHandler(DuplicateBookException.class)
+    public ResponseEntity<ApiResponse> RunTimeExceptionHandler(DuplicateBookException ex){
+        String message = ex.getMessage();
+        ApiResponse apiResponse = new ApiResponse(message,"False");
+        return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.CONFLICT);
+    }
+
+>>>>>>> main
 }

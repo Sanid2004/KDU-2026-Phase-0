@@ -1,6 +1,10 @@
 package com.example.demo.Service;
 
 import com.example.demo.DTOs.BookDto;
+<<<<<<< HEAD
+=======
+import com.example.demo.Exception.DuplicateBookException;
+>>>>>>> main
 import com.example.demo.Exception.ResourceNotFoundException;
 import com.example.demo.Models.Book;
 import com.example.demo.Repository.BookRepository;
@@ -25,6 +29,14 @@ public class BookService {
     }
 
     public Book AddBook(@Valid Book book)  {
+<<<<<<< HEAD
+=======
+
+        if(bookRepository.existsByTitle(book.getTitle()) && bookRepository.existsByAuthor(book.getAuthor())){
+            throw new DuplicateBookException("Book With this title and author already exists");
+        }
+
+>>>>>>> main
         return bookRepository.save(book);
     }
 
@@ -37,6 +49,11 @@ public class BookService {
         book1.setPublishedDate(book.getPublishedDate());
         book1.setNumberOfPages(book.getNumberOfPages());
 
+<<<<<<< HEAD
+=======
+        bookRepository.save(book1);
+
+>>>>>>> main
         return book1;
     }
 
