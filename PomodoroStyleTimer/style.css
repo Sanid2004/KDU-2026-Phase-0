@@ -1,0 +1,98 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    border: 2px solid gray;
+}
+
+.container{
+    height: 70vh;
+    width: 60vh;
+    border: 2px solid black;
+    background-color: white;
+    border-radius: 30px;
+    box-shadow: 10px 10px 10px white;
+    padding: 5px;
+    margin: 120px;
+}
+
+.box{
+   text-align: center;
+   font-size: 40px;
+   font-weight: bold;
+}
+
+.btn{
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    
+}
+
+#para{
+    font-size: small;
+}
+
+.timer{
+    font-size: 4rem;
+    font-family: monospace;
+    font-weight: bold;
+    margin: 20px;
+}
+
+.CustomizeTimer{
+    height: 160px;
+    border: 2px solid white;
+    background-color: #111111;
+    color: white;
+    border-radius: 20px;
+}
+
+#time{
+    height: 100px;
+    width: 100px;
+    margin-left: 100px;
+    background-color:white;
+    border: 2px solid whitesmoke;
+    color: #111111;
+    border-radius: 10px ;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 2px;
+
+}
+
+#setTime{
+    height: 100px;
+    width: 150px;
+    margin-left: 30px;
+    background-color:white;
+    border: 2px solid whitesmoke;
+    color: #111111;
+    border-radius: 10px ;
+    font-size: 24px;
+}
+
+#cont{
+    display: flex;
+}
+
+#session{
+    height: 50px;
+    width: 400px;
+    margin-top: 30px;
+    margin-left: 40px;
+    background-color:white;
+    border: 2px solid whitesmoke;
+    color: #111111;
+    border-radius: 10px ;
+}
