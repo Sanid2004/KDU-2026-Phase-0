@@ -1,0 +1,19 @@
+mysql> select title , category_name from category join content on category.category_id = content.category_id where category_name = "Documentaries" and release_year = 2024 and rating > 8;
++--------------------+---------------+
+| title              | category_name |
++--------------------+---------------+
+| Wildlife Mysteries | Documentaries |
++--------------------+---------------+
+1 row in set (0.002 sec)
+
+mysql> select title , (rating + views_in_millions) as success_score from content where rating + views_in_millions > 100;
++----------------------+---------------+
+| title                | success_score |
++----------------------+---------------+
+| Stranger Adventures  |        151.20 |
+| Planet Earth: Oceans |        210.95 |
+| Attack on Mars       |        165.80 |
+| Wildlife Mysteries   |        187.70 |
+| Cyberpunk Chronicles |        131.85 |
++----------------------+---------------+
+5 rows in set (0.001 sec)
